@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  display: grid;
+  grid-template-columns: min(500px, 40%) 1fr 1fr;
+}
+button {
+  cursor: pointer;
+}
+/* !================ header ============================ */
+
+header {
+  background-color: lightblue;
+  display: flex;
+  justify-content: center;
+  grid-column: span 3;
+}
+.logo {
+  padding: 10px;
+}
+/* !================ nav ============================ */
+
+.nav {
+  background-color: lightcoral;
+  grid-column: span 1;
+  padding: 10px;
+}
+.project-default button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.proj-title {
+  text-align: center;
+  padding: 10px;
+}
+.project-list {
+  padding: 10px 0;
+  margin: 10px 0;
+}
+.project {
+  background-color: aquamarine;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px 0;
+}
+.add-project {
+  width: 100%;
+}
+.input-project {
+  margin-top: 10px;
+  display: none;
+}
+.input-project input {
+  width: 100%;
+}
+.proj-btns {
+  display: flex;
+}
+.proj-btns button {
+  flex: 1;
+}
+/* !================ main ============================ */
+
+main {
+  background-color: lightgreen;
+  grid-column: span 2;
+}
