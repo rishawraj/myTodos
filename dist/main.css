@@ -45,6 +45,8 @@ header {
   justify-content: space-between;
   padding: 10px;
   margin: 10px 0;
+  cursor: pointer;
+  text-transform: capitalize;
 }
 .add-project {
   width: 100%;
@@ -67,4 +69,52 @@ header {
 main {
   background-color: lightgreen;
   grid-column: span 2;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+main h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.task-list {
+  max-width: 700px;
+  /* background-color: yellow; */
+}
+
+.task {
+  background-color: cadetblue;
+  display: flex;
+  width: 500px;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px 0;
+}
+.task-checked {
+  text-decoration: line-through;
+  background-color: rgba(95, 158, 160, 0.774);
+}
+
+.task input {
+  width: 50px;
+  cursor: pointer;
+}
+
+.add-task-button {
+  width: 500px;
+}
+.input-task {
+  display: none;
+  width: 500px;
+}
+#task-input-text {
+  width: 100%;
+}
+.task-btns {
+  width: 100%;
+  display: flex;
+}
+.task-btns button {
+  flex: 1;
 }

@@ -23,28 +23,57 @@
 
       <h2 class="proj-title">New Projects</h2>
 
-      <div class="project-list">
-        <div class="project">
-          <p>cooking</p>
-          <button>delete</button>
-        </div>
-      </div>
+      <div class="project-list"></div>
       <button class="add-project">+ add project</button>
-      <!-- hidden -->
+
+      <!--! hidden -->
+
       <div class="input-project">
         <form action="#">
-          <input id="project-input-text" type="text" required />
+          <input
+            id="project-input-text"
+            type="text"
+            required
+            autocomplete="off"
+          />
           <div class="proj-btns">
             <button class="add-proj" type="submit">add</button>
             <button class="cancel-proj">cancel</button>
           </div>
         </form>
       </div>
+
+      <!-- ?delete -->
+      <button class="delete-all-projects">delete all</button>
     </div>
     <!-- !---------------------- nav end ------------------- -->
 
     <!-- !---------------------- main ------------------- -->
-    <main></main>
+    <main>
+      <h2>general</h2>
+      <div class="task-list">
+        <!--  -->
+        <div class="task">
+          <input type="checkbox" name="check" id="check" />
+          <p>cook breakfast!</p>
+        </div>
+        <!--  -->
+      </div>
+
+      <button class="add-task-button">+ add task</button>
+      <!--! hidden -->
+      <div class="input-task">
+        <form action="#">
+          <input id="task-input-text" type="text" required autocomplete="off" />
+          <div class="task-btns">
+            <button class="add-task" type="submit">add</button>
+            <button class="cancel-task">cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!--  -->
+    </main>
     <!-- !---------------------- main end ------------------- -->
     <!--  -->
   </body>
