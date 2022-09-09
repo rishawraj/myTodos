@@ -9,8 +9,9 @@ import {
   removeTask,
 } from "./modules/saveLocal";
 import { checkBox } from "./modules/checkBox";
+import { createNewProject, generalCreate } from "./modules/newProject";
 
-//* ====== add project button toggle ===========
+//* ============= add project button toggle ===================
 
 const addProject = document.querySelector(".add-project");
 const inputProject = document.querySelector(".input-project");
@@ -26,7 +27,7 @@ cancelProject.addEventListener("click", () => {
   addProject.style.display = "block";
 });
 
-//* =============== add projects ======================
+//* ======================== add projects =====================
 
 const projectList = document.querySelector(".project-list");
 const projectInput = document.querySelector("#project-input-text");
@@ -47,7 +48,7 @@ function renderProjects() {
   });
 }
 
-// ===================== delete-project===============================
+// ===================== delete-project=========================
 projectList.addEventListener("click", (e) => {
   if (e.target.classList[0] == "delete-project") {
     let textValue = e.target.parentElement.textContent.replace(/delete/g, "");
@@ -71,7 +72,7 @@ cancelTask.addEventListener("click", () => {
   addTaskButton.style.display = "block";
 });
 
-// ========================== add task =============================
+// ========================== add task ==========================
 const addTask = document.querySelector(".add-task");
 const taskList = document.querySelector(".task-list");
 const inputTaskText = document.querySelector("#task-input-text");
@@ -85,21 +86,14 @@ addTask.addEventListener("click", () => {
 
 function renderTasks() {
   let tasks = getTasks();
-  console.log(tasks);
   taskList.innerHTML = "";
 
   for (let i = 0; i < tasks.length; i += 2) {
-    // console.log(tasks[i]);
-    console.log(i);
     taskList.append(createTask(tasks[i], tasks[i + 1]));
   }
-
-  // tasks.forEach((element) => {
-  //   taskList.appendChild(createTask(element));
-  // });
 }
 
-// =================delete task==================
+// ===================== delete task ===========================
 taskList.addEventListener("click", (e) => {
   if (e.target.classList[0] == "delete-task") {
     let rmTask = e.target.parentElement.textContent.replace(/x$/, "");
@@ -108,7 +102,7 @@ taskList.addEventListener("click", (e) => {
   }
 });
 
-// =================== checkbox[] task ===========================
+// =================== checkbox[] task ==========================
 taskList.addEventListener("click", (e) => {
   if (e.target.id == "check") {
     let checkdedTask = e.target.parentElement.textContent.replace(/x$/, "");
@@ -117,7 +111,7 @@ taskList.addEventListener("click", (e) => {
   }
 });
 
-//* ===================== gloabal ========================
+//* ===================== gloabal ================================
 document.addEventListener("DOMContentLoaded", renderProjects());
 document.addEventListener("DOMContentLoaded", renderTasks());
 
@@ -127,4 +121,27 @@ const deleteAllBtn = document.querySelector(".delete-all-projects");
 deleteAllBtn.addEventListener("click", () => {
   clearLocal();
   renderProjects();
+  renderTasks();
+});
+
+// !=================== general project ============================
+const generalProject = document.querySelector(".general-project");
+generalProject.addEventListener("click", () => {
+  location.reload();
+});
+
+// !=================== new projects =============================
+projectList.addEventListener("click", (e) => {
+  // console.log(e.target.parentElement);
+  if (
+    (e.target.classList.contains("project") ||
+      e.target.parentElement.classList.contains("project")) &&
+    !e.target.classList.contains("delete-project")
+  ) {
+    let projectName = e.target.textContent.replace("delete", "");
+    createNewProject(projectName);
+    // todo clear <main>
+    // todo rename h2
+    // todo add: add task button (input)
+  }
 });

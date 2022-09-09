@@ -58,6 +58,7 @@ function localSaveProjects(value) {
 
 function localSaveTasks(value) {
   localStorage.setItem("general-tasks", JSON.stringify(value));
+  // localStorage.setItem("general-tasks", JSON.stringify(value));
 }
 
 export {
