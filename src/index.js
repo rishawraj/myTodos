@@ -132,13 +132,60 @@ deleteAllBtn.addEventListener("click", () => {
 // !=================== general project ============================
 const generalProject = document.querySelector(".general-project");
 generalProject.addEventListener("click", () => {
-  location.reload();
-  // const main = document.querySelector("main");
-  // main.innerHTML = "";
-  // renderTasks();
+  // location.reload();
+
+  const main = document.querySelector("main");
+  main.innerHTML = "";
+  main.innerHTML = generalCreate();
+  renderTasks2("general-tasks");
+
+  //? =================== add buton toggle ======================
+  const toggleNewProject = document.querySelector(".add-task-button");
+  const inputForm = document.querySelector(".input-task");
+  const cancelButton = document.querySelector(".cancel-task");
+
+  toggleNewProject.addEventListener("click", () => {
+    toggleNewProject.style.display = "none";
+    inputForm.style.display = "block";
+  });
+
+  cancelButton.addEventListener("click", () => {
+    toggleNewProject.style.display = "block";
+    inputForm.style.display = "none";
+  });
+
+  // ?============= add new project tasks =================
+  const addTask = document.querySelector(".add-task");
+  const inputTaskText = document.querySelector("#task-input-text");
+
+  addTask.addEventListener("click", () => {
+    if (inputTaskText.value == "") return;
+    saveTask(inputTaskText.value);
+    inputTaskText.value = "";
+    renderTasks2("general-tasks");
+  });
+
+  //?===============  delete new project tasks =====================
+  const taskListNew = document.querySelector(".task-list");
+  taskListNew.addEventListener("click", (e) => {
+    if (e.target.classList[0] == "delete-task") {
+      let rmTask = e.target.parentElement.textContent.replace(/x$/, "");
+      removeTask2("general-tasks", rmTask);
+      renderTasks2("general-tasks");
+    }
+  });
+
+  //?==================== check box tick ==================================
+  taskListNew.addEventListener("click", (e) => {
+    if (e.target.id == "check") {
+      let checkdedTask = e.target.parentElement.textContent.replace(/x$/, "");
+      checkBox2("general-tasks", checkdedTask);
+      renderTasks2("general-tasks");
+    }
+  });
 });
 
-// =================== new projects =============================
+//* =================== new projects =============================
 projectList.addEventListener("click", (e) => {
   if (
     (e.target.classList.contains("project") ||
@@ -210,3 +257,5 @@ function renderTasks2(localName) {
     taskListNew.append(createTask(tasks[i], tasks[i + 1]));
   }
 }
+// todo: add query selector in methods to make sure
+// todo: that they don't loose thier binding.

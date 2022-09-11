@@ -1,126 +1,275 @@
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/create */ \"./src/modules/create.js\");\n/* harmony import */ var _modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/saveLocal */ \"./src/modules/saveLocal.js\");\n/* harmony import */ var _modules_checkBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/checkBox */ \"./src/modules/checkBox.js\");\n/* harmony import */ var _modules_newProject__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/newProject */ \"./src/modules/newProject.js\");\n\n\n\n\n\n//* ============= add project button toggle ===================\n\nconst addProject = document.querySelector(\".add-project\");\nconst inputProject = document.querySelector(\".input-project\");\nconst cancelProject = document.querySelector(\".cancel-proj\");\n\naddProject.addEventListener(\"click\", () => {\n  inputProject.style.display = \"block\";\n  addProject.style.display = \"none\";\n});\n\ncancelProject.addEventListener(\"click\", () => {\n  inputProject.style.display = \"none\";\n  addProject.style.display = \"block\";\n});\n\n//* ======================== add projects =====================\n\nconst projectList = document.querySelector(\".project-list\");\nconst projectInput = document.querySelector(\"#project-input-text\");\nconst addProj = document.querySelector(\".add-proj\");\n\naddProj.addEventListener(\"click\", () => {\n  if (projectInput.value == \"\") return;\n  (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.saveProject)(projectInput.value);\n  projectInput.value = \"\";\n  renderProjects();\n});\n\nfunction renderProjects() {\n  let projects = (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.getProjects)();\n  projectList.innerHTML = \"\";\n  projects.forEach((element) => {\n    projectList.appendChild((0,_modules_create__WEBPACK_IMPORTED_MODULE_0__.createProject)(element));\n  });\n}\n\n// ===================== delete-project=========================\nprojectList.addEventListener(\"click\", (e) => {\n  if (e.target.classList[0] == \"delete-project\") {\n    let textValue = e.target.parentElement.textContent.replace(/delete/g, \"\");\n    (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.removeProject)(textValue);\n    renderProjects();\n    localStorage.removeItem(textValue);\n    // todo shift to next project or to default.\n  }\n});\n\n//================= add task button toggle =====================\nconst addTaskButton = document.querySelector(\".add-task-button\");\nconst inputTask = document.querySelector(\".input-task\");\nconst cancelTask = document.querySelector(\".cancel-task\");\n\naddTaskButton.addEventListener(\"click\", () => {\n  inputTask.style.display = \"block\";\n  addTaskButton.style.display = \"none\";\n});\n\ncancelTask.addEventListener(\"click\", () => {\n  inputTask.style.display = \"none\";\n  addTaskButton.style.display = \"block\";\n});\n\n// ========================== add task ==========================\nconst addTask = document.querySelector(\".add-task\");\nconst taskList = document.querySelector(\".task-list\");\nconst inputTaskText = document.querySelector(\"#task-input-text\");\n\naddTask.addEventListener(\"click\", () => {\n  if (inputTaskText.value == \"\") return;\n  (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.saveTask)(inputTaskText.value);\n  inputTaskText.value = \"\";\n  renderTasks();\n});\n\nfunction renderTasks() {\n  let tasks = (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.getTasks)();\n  taskList.innerHTML = \"\";\n\n  for (let i = 0; i < tasks.length; i += 2) {\n    taskList.append((0,_modules_create__WEBPACK_IMPORTED_MODULE_0__.createTask)(tasks[i], tasks[i + 1]));\n  }\n}\n\n// ===================== delete task ===========================\ntaskList.addEventListener(\"click\", (e) => {\n  if (e.target.classList[0] == \"delete-task\") {\n    let rmTask = e.target.parentElement.textContent.replace(/x$/, \"\");\n    (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.removeTask)(rmTask);\n    renderTasks();\n  }\n});\n\n// =================== checkbox[] task ==========================\ntaskList.addEventListener(\"click\", (e) => {\n  if (e.target.id == \"check\") {\n    let checkdedTask = e.target.parentElement.textContent.replace(/x$/, \"\");\n    (0,_modules_checkBox__WEBPACK_IMPORTED_MODULE_2__.checkBox)(checkdedTask);\n    renderTasks();\n  }\n});\n\n//* ===================== gloabal ================================\ndocument.addEventListener(\"DOMContentLoaded\", renderProjects());\ndocument.addEventListener(\"DOMContentLoaded\", renderTasks());\n\n// ? delete-all-projects\nconst deleteAllBtn = document.querySelector(\".delete-all-projects\");\n\ndeleteAllBtn.addEventListener(\"click\", () => {\n  (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.clearLocal)();\n  renderProjects();\n  renderTasks();\n});\n\n// !=================== general project ============================\nconst generalProject = document.querySelector(\".general-project\");\ngeneralProject.addEventListener(\"click\", () => {\n  location.reload();\n  // const main = document.querySelector(\"main\");\n  // main.innerHTML = \"\";\n  // renderTasks();\n});\n\n// =================== new projects =============================\nprojectList.addEventListener(\"click\", (e) => {\n  if (\n    (e.target.classList.contains(\"project\") ||\n      e.target.parentElement.classList.contains(\"project\")) &&\n    !e.target.classList.contains(\"delete-project\")\n  ) {\n    let projectName = e.target.textContent.replace(\"delete\", \"\");\n    (0,_modules_newProject__WEBPACK_IMPORTED_MODULE_3__.createNewProject)(projectName);\n    renderTasks2(projectName); //does work!\n\n    //? =================== add buton toggle ======================\n    const toggleNewProject = document.querySelector(\n      \".add-task-button-new-project\"\n    );\n    const inputForm = document.querySelector(\".input-task-new-project\");\n    const cancelButton = document.querySelector(\".cancel-task\");\n\n    toggleNewProject.addEventListener(\"click\", () => {\n      toggleNewProject.style.display = \"none\";\n      inputForm.style.display = \"block\";\n    });\n\n    cancelButton.addEventListener(\"click\", () => {\n      toggleNewProject.style.display = \"block\";\n      inputForm.style.display = \"none\";\n    });\n\n    // ?============= add new project tasks =================\n    const addTask = document.querySelector(\".add-task\");\n    const inputTaskText = document.querySelector(\"#task-input-text\");\n\n    addTask.addEventListener(\"click\", () => {\n      console.log(`${projectName}`);\n      if (inputTaskText.value == \"\") return;\n      (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.saveTask2)(`${projectName}`, inputTaskText.value);\n      inputTaskText.value = \"\";\n      renderTasks2(`${projectName}`);\n    });\n\n    //?===============  delete new project tasks =====================\n    const taskListNew = document.querySelector(\".task-list\");\n    taskListNew.addEventListener(\"click\", (e) => {\n      if (e.target.classList[0] == \"delete-task\") {\n        let rmTask = e.target.parentElement.textContent.replace(/x$/, \"\");\n        (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.removeTask2)(projectName, rmTask);\n        renderTasks2(projectName);\n      }\n    });\n\n    //?==================== check box tick ==================================\n    taskListNew.addEventListener(\"click\", (e) => {\n      if (e.target.id == \"check\") {\n        let checkdedTask = e.target.parentElement.textContent.replace(/x$/, \"\");\n        (0,_modules_checkBox__WEBPACK_IMPORTED_MODULE_2__.checkBox2)(projectName, checkdedTask);\n        renderTasks2(projectName);\n      }\n    });\n  }\n});\n\n//  new render function to re-select the new task list\n\nfunction renderTasks2(localName) {\n  const taskListNew = document.querySelector(\".task-list\");\n  taskListNew.innerHTML = \"\";\n  let tasks = (0,_modules_saveLocal__WEBPACK_IMPORTED_MODULE_1__.getTasks2)(localName);\n\n  for (let i = 0; i < tasks.length; i += 2) {\n    taskListNew.append((0,_modules_create__WEBPACK_IMPORTED_MODULE_0__.createTask)(tasks[i], tasks[i + 1]));\n  }\n}\n\n\n//# sourceURL=webpack://mytodos/./src/index.js?");
-
-/***/ }),
-
-/***/ "./src/modules/checkBox.js":
-/*!*********************************!*\
-  !*** ./src/modules/checkBox.js ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"checkBox\": () => (/* binding */ checkBox),\n/* harmony export */   \"checkBox2\": () => (/* binding */ checkBox2)\n/* harmony export */ });\n/* harmony import */ var _saveLocal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./saveLocal */ \"./src/modules/saveLocal.js\");\n\n\nfunction checkBox(name) {\n  let tasks = (0,_saveLocal__WEBPACK_IMPORTED_MODULE_0__.getTasks)();\n  for (let i = 0; i < tasks.length; i += 2) {\n    if (tasks[i] == name) {\n      tasks[i + 1] = !tasks[i + 1];\n    }\n  }\n  (0,_saveLocal__WEBPACK_IMPORTED_MODULE_0__.localSaveTasks)(tasks);\n}\n\nfunction checkBox2(localName, name) {\n  let tasks = (0,_saveLocal__WEBPACK_IMPORTED_MODULE_0__.getTasks2)(localName);\n  for (let i = 0; i < tasks.length; i += 2) {\n    if (tasks[i] == name) {\n      tasks[i + 1] = !tasks[i + 1];\n    }\n  }\n  (0,_saveLocal__WEBPACK_IMPORTED_MODULE_0__.localSaveTasks2)(localName, tasks);\n}\n\n\n\n\n//# sourceURL=webpack://mytodos/./src/modules/checkBox.js?");
-
-/***/ }),
-
-/***/ "./src/modules/create.js":
-/*!*******************************!*\
-  !*** ./src/modules/create.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createProject\": () => (/* binding */ createProject),\n/* harmony export */   \"createTask\": () => (/* binding */ createTask)\n/* harmony export */ });\nfunction createProject(value) {\n  const div = document.createElement(\"div\");\n  div.classList.add(\"project\");\n\n  const para = document.createElement(\"p\");\n  para.textContent = value;\n\n  const button = document.createElement(\"button\");\n  button.classList.add(\"delete-project\");\n  button.textContent = \"delete\";\n\n  div.appendChild(para);\n  div.appendChild(button);\n\n  return div;\n}\n\nfunction createTask(value, checkValue = false) {\n  const div = document.createElement(\"div\");\n  if (checkValue == true) {\n    div.classList.add(\"task-checked\");\n  }\n  div.classList.add(\"task\");\n\n  const input = document.createElement(\"input\");\n  input.type = \"checkbox\";\n  input.name = \"check\";\n  input.id = \"check\";\n  input.checked = checkValue;\n\n  const para = document.createElement(\"p\");\n  para.textContent = value;\n\n  const button = document.createElement(\"button\");\n  button.classList.add(\"delete-task\");\n  button.textContent = \"x\";\n  button.style.backgroundColor = \"lightcoral\";\n\n  div.appendChild(input);\n  div.appendChild(para);\n  div.appendChild(button);\n\n  return div;\n}\n\n\n\n\n//# sourceURL=webpack://mytodos/./src/modules/create.js?");
-
-/***/ }),
-
-/***/ "./src/modules/newProject.js":
-/*!***********************************!*\
-  !*** ./src/modules/newProject.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createNewProject\": () => (/* binding */ createNewProject),\n/* harmony export */   \"generalCreate\": () => (/* binding */ generalCreate)\n/* harmony export */ });\nfunction createNewProject(projectName) {\n  // clear main\n  const main = document.querySelector(\"main\");\n  main.innerHTML = \"\";\n\n  //* todo create h2\n  const h2 = document.createElement(\"h2\");\n  h2.classList.add(\"project-title\");\n  h2.textContent = projectName;\n\n  //* todo create task list\n  const taskList = document.createElement(\"div\");\n  taskList.classList.add(\"task-list\");\n\n  //* todo create toggle-btn\n  const toggleBtn = document.createElement(\"button\");\n  toggleBtn.classList.add(\"add-task-button-new-project\");\n  toggleBtn.textContent = \"+ add task\";\n\n  //* todo create inpurForm\n  const inputForm = document.createElement(\"div\");\n  inputForm.classList.add(\"input-task-new-project\");\n  let form = `\n        <form action=\"#\">\n          <input id=\"task-input-text\" type=\"text\" required autocomplete=\"off\">\n          <div class=\"task-btns\">\n            <button class=\"add-task\" type=\"submit\">add</button>\n            <button class=\"cancel-task\">cancel</button>\n          </div>\n        </form>\n  `;\n  inputForm.innerHTML = form;\n\n  //todo add eventlistener to add\n  //todo save local\n  //todo render?\n\n  // append\n  main.appendChild(h2);\n  main.appendChild(taskList);\n  main.appendChild(toggleBtn);\n  main.appendChild(inputForm);\n}\n\nfunction createInputTaskForm(className) {}\n\nfunction generalCreate() {\n  // todo remove everything\n  // todo create title\n  // todo create addtask toggle\n  // todo create hidden form\n}\n\n\n\n//# sourceURL=webpack://mytodos/./src/modules/newProject.js?");
-
-/***/ }),
-
-/***/ "./src/modules/saveLocal.js":
-/*!**********************************!*\
-  !*** ./src/modules/saveLocal.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"clearLocal\": () => (/* binding */ clearLocal),\n/* harmony export */   \"getProjects\": () => (/* binding */ getProjects),\n/* harmony export */   \"getTasks\": () => (/* binding */ getTasks),\n/* harmony export */   \"getTasks2\": () => (/* binding */ getTasks2),\n/* harmony export */   \"localSaveTasks\": () => (/* binding */ localSaveTasks),\n/* harmony export */   \"localSaveTasks2\": () => (/* binding */ localSaveTasks2),\n/* harmony export */   \"removeProject\": () => (/* binding */ removeProject),\n/* harmony export */   \"removeTask\": () => (/* binding */ removeTask),\n/* harmony export */   \"removeTask2\": () => (/* binding */ removeTask2),\n/* harmony export */   \"saveProject\": () => (/* binding */ saveProject),\n/* harmony export */   \"saveTask\": () => (/* binding */ saveTask),\n/* harmony export */   \"saveTask2\": () => (/* binding */ saveTask2)\n/* harmony export */ });\n// ======================== projects ========================\nfunction saveProject(value) {\n  let projects = getProjects();\n  projects.push(value);\n  localSaveProjects(projects);\n}\n\nfunction getProjects() {\n  return localStorage.getItem(\"projects\") == null\n    ? []\n    : JSON.parse(localStorage.getItem(\"projects\"));\n}\n\nfunction removeProject(project) {\n  let projects = getProjects();\n  let newProjects = [];\n  for (let i = 0; i < projects.length; i++) {\n    if (projects[i] !== project) {\n      newProjects.push(projects[i]);\n    }\n  }\n  localSaveProjects(newProjects);\n}\n\n// =========================== tasks =======================\nfunction saveTask(value, checkValue = false) {\n  let tasks = getTasks();\n  tasks.push(value);\n  tasks.push(checkValue);\n  localSaveTasks(tasks);\n}\n\nfunction saveTask2(localName, value, checkValue = false) {\n  let tasks = getTasks2(localName);\n  tasks.push(value);\n  tasks.push(checkValue);\n  localSaveTasks2(localName, tasks);\n}\n\nfunction getTasks() {\n  return localStorage.getItem(\"general-tasks\") == null\n    ? []\n    : JSON.parse(localStorage.getItem(\"general-tasks\"));\n}\n\nfunction getTasks2(localName) {\n  return localStorage.getItem(localName) == null\n    ? []\n    : JSON.parse(localStorage.getItem(localName));\n}\n\nfunction removeTask(value) {\n  let tasks = getTasks();\n  let newTasks = [];\n  for (let i = 0; i < tasks.length; i += 2) {\n    if (tasks[i] !== value) {\n      newTasks.push(tasks[i]);\n      newTasks.push(tasks[i + 1]);\n    }\n  }\n  localSaveTasks(newTasks);\n}\n\nfunction removeTask2(localName, value) {\n  let tasks = getTasks2(localName);\n  let newTasks = [];\n  for (let i = 0; i < tasks.length; i += 2) {\n    if (tasks[i] !== value) {\n      newTasks.push(tasks[i]);\n      newTasks.push(tasks[i + 1]);\n    }\n  }\n  localSaveTasks2(localName, newTasks);\n}\n\n//========================= global ============================\nfunction clearLocal() {\n  localStorage.clear();\n}\nfunction localSaveProjects(value) {\n  localStorage.setItem(\"projects\", JSON.stringify(value));\n}\n\nfunction localSaveTasks(value) {\n  localStorage.setItem(\"general-tasks\", JSON.stringify(value));\n}\n\nfunction localSaveTasks2(localName, value) {\n  localStorage.setItem(localName, JSON.stringify(value));\n}\n\n\n\n\n//# sourceURL=webpack://mytodos/./src/modules/saveLocal.js?");
-
-/***/ })
-
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
-/******/ 	
-/******/ })()
-;
+/*! For license information please see main.js.LICENSE.txt */
+(() => {
+  "use strict";
+  function e(e, t = !1) {
+    const n = document.createElement("div");
+    1 == t && n.classList.add("task-checked"), n.classList.add("task");
+    const c = document.createElement("input");
+    (c.type = "checkbox"),
+      (c.name = "check"),
+      (c.id = "check"),
+      (c.checked = t);
+    const l = document.createElement("p");
+    l.textContent = e;
+    const a = document.createElement("button");
+    return (
+      a.classList.add("delete-task"),
+      (a.textContent = "x"),
+      (a.style.backgroundColor = "lightcoral"),
+      n.appendChild(c),
+      n.appendChild(l),
+      n.appendChild(a),
+      n
+    );
+  }
+  function t() {
+    return null == localStorage.getItem("projects")
+      ? []
+      : JSON.parse(localStorage.getItem("projects"));
+  }
+  function n(e, t = !1) {
+    let n = c();
+    n.push(e), n.push(t), o(n);
+  }
+  function c() {
+    return null == localStorage.getItem("general-tasks")
+      ? []
+      : JSON.parse(localStorage.getItem("general-tasks"));
+  }
+  function l(e) {
+    return null == localStorage.getItem(e)
+      ? []
+      : JSON.parse(localStorage.getItem(e));
+  }
+  function a(e, t) {
+    let n = l(e),
+      c = [];
+    for (let e = 0; e < n.length; e += 2)
+      n[e] !== t && (c.push(n[e]), c.push(n[e + 1]));
+    r(e, c);
+  }
+  function s(e) {
+    localStorage.setItem("projects", JSON.stringify(e));
+  }
+  function o(e) {
+    localStorage.setItem("general-tasks", JSON.stringify(e));
+  }
+  function r(e, t) {
+    localStorage.setItem(e, JSON.stringify(t));
+  }
+  function d(e, t) {
+    let n = l(e);
+    for (let e = 0; e < n.length; e += 2) n[e] == t && (n[e + 1] = !n[e + 1]);
+    r(e, n);
+  }
+  const i = document.querySelector(".add-project"),
+    u = document.querySelector(".input-project"),
+    p = document.querySelector(".cancel-proj");
+  i.addEventListener("click", () => {
+    (u.style.display = "block"), (i.style.display = "none");
+  }),
+    p.addEventListener("click", () => {
+      (u.style.display = "none"), (i.style.display = "block");
+    });
+  const k = document.querySelector(".project-list"),
+    m = document.querySelector("#project-input-text");
+  function y() {
+    let e = t();
+    (k.innerHTML = ""),
+      e.forEach((e) => {
+        k.appendChild(
+          (function (e) {
+            const t = document.createElement("div");
+            t.classList.add("project");
+            const n = document.createElement("p");
+            n.textContent = e;
+            const c = document.createElement("button");
+            return (
+              c.classList.add("delete-project"),
+              (c.textContent = "delete"),
+              t.appendChild(n),
+              t.appendChild(c),
+              t
+            );
+          })(e)
+        );
+      });
+  }
+  document.querySelector(".add-proj").addEventListener("click", () => {
+    "" != m.value &&
+      ((function (e) {
+        let n = t();
+        n.push(e), s(n);
+      })(m.value),
+      (m.value = ""),
+      y());
+  }),
+    k.addEventListener("click", (e) => {
+      if ("delete-project" == e.target.classList[0]) {
+        let n = e.target.parentElement.textContent.replace(/delete/g, "");
+        !(function (e) {
+          let n = t(),
+            c = [];
+          for (let t = 0; t < n.length; t++) n[t] !== e && c.push(n[t]);
+          s(c);
+        })(n),
+          y(),
+          localStorage.removeItem(n);
+      }
+    });
+  const g = document.querySelector(".add-task-button"),
+    v = document.querySelector(".input-task"),
+    L = document.querySelector(".cancel-task");
+  g.addEventListener("click", () => {
+    (v.style.display = "block"), (g.style.display = "none");
+  }),
+    L.addEventListener("click", () => {
+      (v.style.display = "none"), (g.style.display = "block");
+    });
+  const S = document.querySelector(".add-task"),
+    E = document.querySelector(".task-list"),
+    f = document.querySelector("#task-input-text");
+  function h() {
+    let t = c();
+    E.innerHTML = "";
+    for (let n = 0; n < t.length; n += 2) E.append(e(t[n], t[n + 1]));
+  }
+  function b(t) {
+    const n = document.querySelector(".task-list");
+    n.innerHTML = "";
+    let c = l(t);
+    for (let t = 0; t < c.length; t += 2) n.append(e(c[t], c[t + 1]));
+  }
+  S.addEventListener("click", () => {
+    "" != f.value && (n(f.value), (f.value = ""), h());
+  }),
+    E.addEventListener("click", (e) => {
+      "delete-task" == e.target.classList[0] &&
+        (!(function (e) {
+          let t = c(),
+            n = [];
+          for (let c = 0; c < t.length; c += 2)
+            t[c] !== e && (n.push(t[c]), n.push(t[c + 1]));
+          o(n);
+        })(e.target.parentElement.textContent.replace(/x$/, "")),
+        h());
+    }),
+    E.addEventListener("click", (e) => {
+      "check" == e.target.id &&
+        (!(function (e) {
+          let t = c();
+          for (let n = 0; n < t.length; n += 2)
+            t[n] == e && (t[n + 1] = !t[n + 1]);
+          o(t);
+        })(e.target.parentElement.textContent.replace(/x$/, "")),
+        h());
+    }),
+    document.addEventListener("DOMContentLoaded", y()),
+    document.addEventListener("DOMContentLoaded", h()),
+    document
+      .querySelector(".delete-all-projects")
+      .addEventListener("click", () => {
+        localStorage.clear(), y(), h();
+      }),
+    document.querySelector(".general-project").addEventListener("click", () => {
+      const e = document.querySelector("main");
+      (e.innerHTML = ""),
+        (e.innerHTML =
+          '\n      <h2 class="project-title">general</h2>\n      <div class="task-list"></div>\n\n      <button class="add-task-button">+ add task</button>\n      <div class="input-task">\n        <form action="#">\n          <input id="task-input-text" type="text" required autocomplete="off" />\n          <div class="task-btns">\n            <button class="add-task" type="submit">add</button>\n            <button class="cancel-task">cancel</button>\n          </div>\n        </form>\n      </div>\n  '),
+        b("general-tasks");
+      const t = document.querySelector(".add-task-button"),
+        c = document.querySelector(".input-task"),
+        l = document.querySelector(".cancel-task");
+      t.addEventListener("click", () => {
+        (t.style.display = "none"), (c.style.display = "block");
+      }),
+        l.addEventListener("click", () => {
+          (t.style.display = "block"), (c.style.display = "none");
+        });
+      const s = document.querySelector(".add-task"),
+        o = document.querySelector("#task-input-text");
+      s.addEventListener("click", () => {
+        "" != o.value && (n(o.value), (o.value = ""), b("general-tasks"));
+      });
+      const r = document.querySelector(".task-list");
+      r.addEventListener("click", (e) => {
+        "delete-task" == e.target.classList[0] &&
+          (a(
+            "general-tasks",
+            e.target.parentElement.textContent.replace(/x$/, "")
+          ),
+          b("general-tasks"));
+      }),
+        r.addEventListener("click", (e) => {
+          "check" == e.target.id &&
+            (d(
+              "general-tasks",
+              e.target.parentElement.textContent.replace(/x$/, "")
+            ),
+            b("general-tasks"));
+        });
+    }),
+    k.addEventListener("click", (e) => {
+      if (
+        (e.target.classList.contains("project") ||
+          e.target.parentElement.classList.contains("project")) &&
+        !e.target.classList.contains("delete-project")
+      ) {
+        let t = e.target.textContent.replace("delete", "");
+        !(function (e) {
+          const t = document.querySelector("main");
+          t.innerHTML = "";
+          const n = document.createElement("h2");
+          n.classList.add("project-title"), (n.textContent = e);
+          const c = document.createElement("div");
+          c.classList.add("task-list");
+          const l = document.createElement("button");
+          l.classList.add("add-task-button-new-project"),
+            (l.textContent = "+ add task");
+          const a = document.createElement("div");
+          a.classList.add("input-task-new-project"),
+            (a.innerHTML =
+              '\n        <form action="#">\n          <input id="task-input-text" type="text" required autocomplete="off">\n          <div class="task-btns">\n            <button class="add-task" type="submit">add</button>\n            <button class="cancel-task">cancel</button>\n          </div>\n        </form>\n  '),
+            t.appendChild(n),
+            t.appendChild(c),
+            t.appendChild(l),
+            t.appendChild(a);
+        })(t),
+          b(t);
+        const n = document.querySelector(".add-task-button-new-project"),
+          c = document.querySelector(".input-task-new-project"),
+          s = document.querySelector(".cancel-task");
+        n.addEventListener("click", () => {
+          (n.style.display = "none"), (c.style.display = "block");
+        }),
+          s.addEventListener("click", () => {
+            (n.style.display = "block"), (c.style.display = "none");
+          });
+        const o = document.querySelector(".add-task"),
+          i = document.querySelector("#task-input-text");
+        o.addEventListener("click", () => {
+          console.log(`${t}`),
+            "" != i.value &&
+              ((function (e, t, n = !1) {
+                let c = l(e);
+                c.push(t), c.push(n), r(e, c);
+              })(`${t}`, i.value),
+              (i.value = ""),
+              b(`${t}`));
+        });
+        const u = document.querySelector(".task-list");
+        u.addEventListener("click", (e) => {
+          if ("delete-task" == e.target.classList[0]) {
+            let n = e.target.parentElement.textContent.replace(/x$/, "");
+            a(t, n), b(t);
+          }
+        }),
+          u.addEventListener("click", (e) => {
+            if ("check" == e.target.id) {
+              let n = e.target.parentElement.textContent.replace(/x$/, "");
+              d(t, n), b(t);
+            }
+          });
+      }
+    });
+})();

@@ -31,10 +31,6 @@ function createNewProject(projectName) {
   `;
   inputForm.innerHTML = form;
 
-  //todo add eventlistener to add
-  //todo save local
-  //todo render?
-
   // append
   main.appendChild(h2);
   main.appendChild(taskList);
@@ -42,12 +38,23 @@ function createNewProject(projectName) {
   main.appendChild(inputForm);
 }
 
-function createInputTaskForm(className) {}
-
 function generalCreate() {
-  // todo remove everything
-  // todo create title
-  // todo create addtask toggle
-  // todo create hidden form
+  let html = `
+      <h2 class="project-title">general</h2>
+      <div class="task-list"></div>
+
+      <button class="add-task-button">+ add task</button>
+      <div class="input-task">
+        <form action="#">
+          <input id="task-input-text" type="text" required autocomplete="off" />
+          <div class="task-btns">
+            <button class="add-task" type="submit">add</button>
+            <button class="cancel-task">cancel</button>
+          </div>
+        </form>
+      </div>
+  `;
+
+  return html;
 }
 export { createNewProject, generalCreate };

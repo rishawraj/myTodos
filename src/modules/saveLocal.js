@@ -29,7 +29,7 @@ function saveTask(value, checkValue = false) {
   tasks.push(checkValue);
   localSaveTasks(tasks);
 }
-
+//! 2
 function saveTask2(localName, value, checkValue = false) {
   let tasks = getTasks2(localName);
   tasks.push(value);
@@ -43,6 +43,7 @@ function getTasks() {
     : JSON.parse(localStorage.getItem("general-tasks"));
 }
 
+// !2
 function getTasks2(localName) {
   return localStorage.getItem(localName) == null
     ? []
@@ -61,6 +62,7 @@ function removeTask(value) {
   localSaveTasks(newTasks);
 }
 
+// !2
 function removeTask2(localName, value) {
   let tasks = getTasks2(localName);
   let newTasks = [];
@@ -85,6 +87,7 @@ function localSaveTasks(value) {
   localStorage.setItem("general-tasks", JSON.stringify(value));
 }
 
+// !2
 function localSaveTasks2(localName, value) {
   localStorage.setItem(localName, JSON.stringify(value));
 }
