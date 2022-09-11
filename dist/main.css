@@ -118,3 +118,13 @@ main h2 {
 .task-btns button {
   flex: 1;
 }
+
+/*  */
+.add-task-button-new-project {
+  /* color: red; */
+  width: 500px;
+}
+.input-task-new-project {
+  width: 500px;
+  display: none;
+}

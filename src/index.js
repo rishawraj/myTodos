@@ -7,8 +7,11 @@ import {
   saveTask,
   getTasks,
   removeTask,
+  saveTask2,
+  getTasks2,
+  removeTask2,
 } from "./modules/saveLocal";
-import { checkBox } from "./modules/checkBox";
+import { checkBox, checkBox2 } from "./modules/checkBox";
 import { createNewProject, generalCreate } from "./modules/newProject";
 
 //* ============= add project button toggle ===================
@@ -54,6 +57,8 @@ projectList.addEventListener("click", (e) => {
     let textValue = e.target.parentElement.textContent.replace(/delete/g, "");
     removeProject(textValue);
     renderProjects();
+    localStorage.removeItem(textValue);
+    // todo shift to next project or to default.
   }
 });
 
@@ -128,11 +133,13 @@ deleteAllBtn.addEventListener("click", () => {
 const generalProject = document.querySelector(".general-project");
 generalProject.addEventListener("click", () => {
   location.reload();
+  // const main = document.querySelector("main");
+  // main.innerHTML = "";
+  // renderTasks();
 });
 
-// !=================== new projects =============================
+// =================== new projects =============================
 projectList.addEventListener("click", (e) => {
-  // console.log(e.target.parentElement);
   if (
     (e.target.classList.contains("project") ||
       e.target.parentElement.classList.contains("project")) &&
@@ -140,8 +147,66 @@ projectList.addEventListener("click", (e) => {
   ) {
     let projectName = e.target.textContent.replace("delete", "");
     createNewProject(projectName);
-    // todo clear <main>
-    // todo rename h2
-    // todo add: add task button (input)
+    renderTasks2(projectName); //does work!
+
+    //? =================== add buton toggle ======================
+    const toggleNewProject = document.querySelector(
+      ".add-task-button-new-project"
+    );
+    const inputForm = document.querySelector(".input-task-new-project");
+    const cancelButton = document.querySelector(".cancel-task");
+
+    toggleNewProject.addEventListener("click", () => {
+      toggleNewProject.style.display = "none";
+      inputForm.style.display = "block";
+    });
+
+    cancelButton.addEventListener("click", () => {
+      toggleNewProject.style.display = "block";
+      inputForm.style.display = "none";
+    });
+
+    // ?============= add new project tasks =================
+    const addTask = document.querySelector(".add-task");
+    const inputTaskText = document.querySelector("#task-input-text");
+
+    addTask.addEventListener("click", () => {
+      console.log(`${projectName}`);
+      if (inputTaskText.value == "") return;
+      saveTask2(`${projectName}`, inputTaskText.value);
+      inputTaskText.value = "";
+      renderTasks2(`${projectName}`);
+    });
+
+    //?===============  delete new project tasks =====================
+    const taskListNew = document.querySelector(".task-list");
+    taskListNew.addEventListener("click", (e) => {
+      if (e.target.classList[0] == "delete-task") {
+        let rmTask = e.target.parentElement.textContent.replace(/x$/, "");
+        removeTask2(projectName, rmTask);
+        renderTasks2(projectName);
+      }
+    });
+
+    //?==================== check box tick ==================================
+    taskListNew.addEventListener("click", (e) => {
+      if (e.target.id == "check") {
+        let checkdedTask = e.target.parentElement.textContent.replace(/x$/, "");
+        checkBox2(projectName, checkdedTask);
+        renderTasks2(projectName);
+      }
+    });
   }
 });
+
+//  new render function to re-select the new task list
+
+function renderTasks2(localName) {
+  const taskListNew = document.querySelector(".task-list");
+  taskListNew.innerHTML = "";
+  let tasks = getTasks2(localName);
+
+  for (let i = 0; i < tasks.length; i += 2) {
+    taskListNew.append(createTask(tasks[i], tasks[i + 1]));
+  }
+}
