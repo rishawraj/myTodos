@@ -58,7 +58,8 @@ projectList.addEventListener("click", (e) => {
     removeProject(textValue);
     renderProjects();
     localStorage.removeItem(textValue);
-    // todo shift to next project or to default.
+    const genBtn = document.querySelector(".general-project");
+    genBtn.click();
   }
 });
 
